@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bert.css">
+    <title>ΑΓΩΝΑΣ ΣΦΑΙΡΟΒΟΛΙΑΣ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="image/sfaira.png">
+
+
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>ΑΓΩΝΑΣ ΣΦΑΙΡΟΒΟΛΙΑΣ</h1>
+
+        <img src="logo.png" alt="Λογότυπο Σφαιροβολίας" class="logo">
+    </div>
+    <form>
+        <div class="form-row">
+            <label for="onoma">Όνομα:</label>
+            <input type="text" name="onoma" id="onoma" required placeholder="π.χ. Γεώργιος">
+        </div><br>
+        <div class="form-row">
+            <label for="epitheto">Επίθετο:</label>
+            <input type="text" name="epitheto" id="epitheto" required placeholder="π.χ. Μπερτάκης">
+        </div><br>
+        <div class="form-row">
+            <label for="email"> E-Mail:</label>
+            <input type="text" name="email" id="email" requried placeholder="π.χ. p25120@unipi.gr">
+        </div><br>
+        <div class="form-row">
+            <label for="panepisthmio"> Πανεπιστημιακό Ίδρυμα:</label>
+            <input type="text" name="panepisthmio" id="panepisthmio" required placeholder="π.χ. Πανεπιστήμιο Πειραιώς">
+        </div><br>
+        <div class="form-row">
+            <label for="bolh">Επίδοση (μέτρα):</label>
+            <input type="text" name="bolh" id="bolh" required placeholder="π.χ. 10.30">
+        </div><br>
+        <div class="form-row">
+
+            <button type="submit" value="submit">Καταχώρηση Στοιχείων</button><br><br>
+        </div>
+
+    </form>
+    <div class="h2_">
+    <h2> Αποτελέσματα Αγώνα</h2>
+    </div>
+    <div class="tables">
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Όνομα</th>
+                    <th>Επίθετο</th>
+                    <th>Ε-Μail</th>
+                    <th> Πανεπιστημιακό Ίδρυμα</th>
+                    <th> Επίδοση (μέτρα)</th>
+                    <th> Πρόκριση</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const form = document.querySelector("form");
+        const tbodyEl = document.querySelector('tbody')
+        let participants = []
+        function onADD(e) {
+            e.preventDefault();
+            const onoma = document.getElementById('onoma').value;
+            const epitheto = document.getElementById('epitheto').value;
+            const email = document.getElementById('email').value;
+            const panepisthmio = document.getElementById('panepisthmio').value;
+            let epidosh = document.getElementById('bolh').value;
+            epidosh = parseFloat(epidosh.replace(",", "."));
+            let prokrish;
+
+            if (epidosh >= 10.30) {
+                prokrish = "ΠΡΟΚΡΙΝΕΤΑΙ";
+            } else {
+                prokrish = "ΔΕΝ ΠΡΟΚΡΙΝΕΤΑΙ";
+            }
+
+            participants.push({
+                onoma: onoma,
+                epitheto: epitheto,
+                email: email,
+                panepisthmio: panepisthmio,
+                epidosh: epidosh,
+                prokrish: prokrish
+            });
+            participants.sort((a, b) => b.epidosh - a.epidosh);
+            tbodyEl.innerHTML = "";
+            participants.forEach((p, index) => {
+
+                let rowClass = ""
+                if (index === 0) {
+                    rowClass = "gold";
+                }
+                else if (index === 1) {
+                    rowClass = "silver";
+                }
+                else if (index === 2) {
+                    rowClass = "bronze";
+                }
+
+
+
+
+
+                tbodyEl.innerHTML += `          
+              <tr class="${rowClass}">
+                    <td>${p.onoma}</td>
+                    <td>${p.epitheto}</td>
+                    <td>${p.email}</td>
+                    <td>${p.panepisthmio}</td>
+                    <td>${p.epidosh}</td>
+                    <td>${p.prokrish}</td>
+                </tr>
+
+         `;
+            });
+
+            form.reset();
+        }
+
+        form.addEventListener("submit", onADD);
+
+    </script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
